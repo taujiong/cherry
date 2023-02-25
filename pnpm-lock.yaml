@@ -9,9 +9,13 @@ specifiers:
   husky: ^8.0.3
   lint-staged: ^13.1.2
   prettier: ^2.8.4
+  rxjs: ^7.8.0
   typescript: ^4.9.5
   vite: ^4.1.4
   vite-node: ^0.28.5
+
+dependencies:
+  rxjs: 7.8.0
 
 devDependencies:
   '@types/node': 18.14.1
@@ -2050,7 +2054,6 @@ packages:
       }
     dependencies:
       tslib: 2.5.0
-    dev: true
 
   /semver/7.3.8:
     resolution:
@@ -2279,7 +2282,6 @@ packages:
       {
         integrity: sha512-336iVw3rtn2BUK7ORdIAHTyxHGRIHVReokCR3XjbckJMK7ms8FysBfhLR8IXnAgy7T0PTPNBWKiH514FOW/WSg==,
       }
-    dev: true
 
   /tsutils/3.21.0_typescript@4.9.5:
     resolution:

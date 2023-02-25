@@ -9,6 +9,9 @@
     "*": "prettier --write --ignore-unknown",
     "*.[jt]s": "eslint"
   },
+  "dependencies": {
+    "rxjs": "^7.8.0"
+  },
   "devDependencies": {
     "@types/node": "^18.14.0",
     "@typescript-eslint/eslint-plugin": "^5.53.0",

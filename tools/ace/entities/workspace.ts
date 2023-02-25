@@ -1,15 +1,20 @@
-import { getParentDirRecursively, hasFileInDir } from '@/fs'
+import { loadProjectConfig, lookupProjectRoots } from '../utils/project.js'
+import { Project } from './project.js'
 
-const WORKSPACE_CONFIG_FILE = 'ace.workspace.json'
+export const WORKSPACE_CONFIG_FILE = 'ace.workspace.json'
 
-export async function findWorkspaceRoot(startDir = process.cwd()) {
-  const isRoot = await hasFileInDir(WORKSPACE_CONFIG_FILE, startDir)
-  if (isRoot) return startDir
+export class Workspace {
+  public projects: Project[] = []
 
-  for (const dir of getParentDirRecursively(startDir)) {
-    const isRoot = await hasFileInDir(WORKSPACE_CONFIG_FILE, startDir)
-    if (isRoot) return dir
+  public constructor(public root: string) {}
+
+  public async loadProjects() {
+    const projectRoots = await lookupProjectRoots(this.root)
+    this.projects = await Promise.all(
+      projectRoots.map(async (root) => {
+        const config = await loadProjectConfig(root)
+        return new Project(root, config)
+      })
+    )
   }
-
-  return null
 }

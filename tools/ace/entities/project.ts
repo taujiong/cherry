@@ -1,24 +1,12 @@
-import { hasFileInDir } from '@/fs'
-import { readdir, stat } from 'node:fs/promises'
-import { join } from 'node:path'
+export const PROJECT_CONFIG_FILE = 'ace.project.json'
 
-const PROJECT_CONFIG_FILE = 'ace.project.json'
+export interface ProjectConfig {
+  name: string
+}
 
-export async function lookupProjectRoots(rootDir = process.cwd()) {
-  const isProjectRoot = await hasFileInDir(PROJECT_CONFIG_FILE, rootDir)
-  if (isProjectRoot) return [rootDir]
-
-  const roots: string[] = []
-  const children = await readdir(rootDir)
-  const entries = await Promise.all(
-    children.map(async (child) => {
-      const entry = join(rootDir, child)
-      const entryStat = await stat(entry)
-      return entryStat.isDirectory() ? await lookupProjectRoots(entry) : []
-    })
-  )
-
-  roots.push(...entries.flat())
-
-  return roots
+export class Project {
+  public name: string
+  public constructor(public root: string, config: ProjectConfig) {
+    this.name = config.name
+  }
 }
