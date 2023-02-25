@@ -1,20 +1,40 @@
-import { loadProjectConfig, lookupProjectRoots } from '../utils/project.js'
-import { Project } from './project.js'
+import { getParentDirRecursively, hasFileInDir } from '@/fs'
+import { ProjectManager } from '../managers/project.js'
 
-export const WORKSPACE_CONFIG_FILE = 'ace.workspace.json'
+const WORKSPACE_CONFIG_FILE = 'ace.workspace.json'
 
 export class Workspace {
-  public projects: Project[] = []
+  public porjectManager: ProjectManager
 
-  public constructor(public root: string) {}
-
-  public async loadProjects() {
-    const projectRoots = await lookupProjectRoots(this.root)
-    this.projects = await Promise.all(
-      projectRoots.map(async (root) => {
-        const config = await loadProjectConfig(root)
-        return new Project(root, config)
-      })
-    )
+  public constructor(public root: string) {
+    this.porjectManager = new ProjectManager(this)
   }
+
+  public async initialze() {
+    await this.porjectManager.initialize()
+  }
+}
+
+export async function createWorkspace(workingDir = process.cwd()) {
+  const workspaceRoot = await findWorkspaceRoot(workingDir)
+  if (!workspaceRoot) {
+    console.log('no workspace found, exit')
+    process.exit(1)
+  }
+  const workspace = new Workspace(workspaceRoot)
+  await workspace.initialze()
+
+  return workspace
+}
+
+async function findWorkspaceRoot(startDir: string) {
+  const isRoot = await hasFileInDir(WORKSPACE_CONFIG_FILE, startDir)
+  if (isRoot) return startDir
+
+  for (const dir of getParentDirRecursively(startDir)) {
+    const isRoot = await hasFileInDir(WORKSPACE_CONFIG_FILE, startDir)
+    if (isRoot) return dir
+  }
+
+  return null
 }

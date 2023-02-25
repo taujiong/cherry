@@ -1,5 +1,3 @@
-export const PROJECT_CONFIG_FILE = 'ace.project.json'
-
 export interface ProjectConfig {
   name: string
 }

@@ -13,8 +13,6 @@
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
-    "allowJs": true,
-    "checkJs": true,
     "resolveJsonModule": true,
     "moduleResolution": "NodeNext",
     "paths": {
