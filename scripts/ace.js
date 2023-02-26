@@ -46,6 +46,6 @@ const runner = new ViteNodeRunner({
   },
 })
 
-await runner.executeFile('./tools/ace/index.ts')
+await runner.executeFile('./tools/ace/cli.ts')
 
 await server.close()

@@ -1,10 +1,8 @@
 import { readdir, readFile, stat } from 'node:fs/promises'
 import { join } from 'node:path'
 import type { ProjectConfig } from '../entities/project.js'
-import { Project } from '../entities/project.js'
+import { Project, PROJECT_CONFIG_FILE } from '../entities/project.js'
 import type { Workspace } from '../entities/workspace.js'
-
-const PROJECT_CONFIG_FILE = 'ace.project.json'
 
 export class ProjectManager {
   public projects: Project[] = []

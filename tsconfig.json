@@ -16,7 +16,8 @@
     "resolveJsonModule": true,
     "moduleResolution": "NodeNext",
     "paths": {
-      "@/fs": ["./libs/fs/index.ts"]
+      "@/fs": ["./libs/fs/index.ts"],
+      "ace": ["./tools/ace/lib.ts"]
     }
   }
 }
